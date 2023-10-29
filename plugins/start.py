@@ -2,7 +2,7 @@
 
 
 
-
+import time
 import os
 import asyncio
 from pyrogram import Client, filters, __version__
@@ -105,6 +105,20 @@ async def start_command(client: Client, message: Message):
             quote = True
         )
         return
+
+# Add an auto-delete function here
+async def auto_delete_files():
+    await asyncio.sleep(300)  # Sleep for 5 minutes (300 seconds)
+    
+    for msg in messages:
+        try:
+            await msg.delete()
+        except Exception as e:
+            print(f"Error deleting file: {e}")
+
+# Schedule the auto-delete function
+asyncio.create_task(auto_delete_files())
+
 
     
 #=====================================================================================##
