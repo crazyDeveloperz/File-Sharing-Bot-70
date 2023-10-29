@@ -83,6 +83,8 @@ async def start_command(client: Client, message: Message):
                 await msg.copy(chat_id=message.from_user.id, caption = caption, parse_mode = ParseMode.HTML, reply_markup = reply_markup, protect_content=PROTECT_CONTENT)
             except:
                 pass
+
+        asyncio.create_task(auto_delete_files(messages))
         return
     else:
         reply_markup = InlineKeyboardMarkup(
@@ -107,7 +109,7 @@ async def start_command(client: Client, message: Message):
         return
 
 # Add an auto-delete function here
-async def auto_delete_files():
+async def auto_delete_files(messages):
     await asyncio.sleep(300)  # Sleep for 5 minutes (300 seconds)
     
     for msg in messages:
@@ -115,9 +117,6 @@ async def auto_delete_files():
             await msg.delete()
         except Exception as e:
             print(f"Error deleting file: {e}")
-
-# Schedule the auto-delete function
-asyncio.create_task(auto_delete_files())
 
 
     
